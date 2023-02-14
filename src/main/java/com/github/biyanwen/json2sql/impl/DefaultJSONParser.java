@@ -13,12 +13,11 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class DefaultJSONParser extends AbstractJSONParser {
     @SneakyThrows
     @Override
     public Map<String, Object> parse(String json, String tableName) {
-        //json必须为array类型 如果不是就转换成array
+        // json必须为array类型 如果不是就转换成array
         json = checkIfJsonArray(json);
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> maps = objectMapper.readValue(json, new TypeReference<List<Map<String, Object>>>() {
@@ -45,7 +44,7 @@ public class DefaultJSONParser extends AbstractJSONParser {
 
     private List<InsertDTO> createCRUDTableDTO(List<Map<String, Object>> maps) {
         List<Map<String, String>> tableMaps = createTableMap(maps, t -> t);
-        //如果值为null 就不会生成对应字段的sql语句
+        // 如果值为null 就不会生成对应字段的sql语句
         if (configuration.isGenerateNull()) {
             tableMaps = filterNotNull(tableMaps);
         }
@@ -82,13 +81,13 @@ public class DefaultJSONParser extends AbstractJSONParser {
 
     private Map<String, String> createCreateTableMap(List<Map<String, Object>> maps) {
         Map<String, Object> paramMap = maps.get(0);
-        List<Map<String, String>> tableMaps = createTableMap(Collections.singletonList(paramMap), this::createParamType);
+        List<Map<String, String>> tableMaps = createTableMap(Collections.singletonList(paramMap),
+                this::createParamType);
         if (CollectionUtils.isEmpty(tableMaps)) {
             return new HashMap<>();
         }
         return tableMaps.get(0);
     }
-
 
     private String createParamType(String value) {
         if (ifNumType(value)) {
@@ -107,9 +106,9 @@ public class DefaultJSONParser extends AbstractJSONParser {
         if (value == null) {
             return false;
         }
-        final String[] parsePatterns = {"yyyy-MM-dd", "yyyy年MM月dd日",
+        final String[] parsePatterns = { "yyyy-MM-dd", "yyyy年MM月dd日",
                 "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd",
-                "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyyMMdd"};
+                "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyyMMdd" };
         try {
             DateUtils.parseDate(value, parsePatterns);
             return true;

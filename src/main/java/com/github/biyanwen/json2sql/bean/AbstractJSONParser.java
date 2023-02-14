@@ -44,7 +44,8 @@ public abstract class AbstractJSONParser implements JSONParser {
      * @return
      */
 
-    protected List<Map<String, String>> createTableMap(List<Map<String, Object>> maps, Function<String, String> function) {
+    protected List<Map<String, String>> createTableMap(List<Map<String, Object>> maps,
+            Function<String, String> function) {
         List<Map<String, String>> mapList = new ArrayList<>();
         for (Map<String, Object> map : maps) {
             Map<String, String> stringMap = mapProcessor(map);
@@ -53,7 +54,8 @@ public abstract class AbstractJSONParser implements JSONParser {
                 if (ifIgnore(entry.getKey())) {
                     continue;
                 }
-                String key = KeyConversionEnum.valueOf(configuration.getKeyConversionConfig().toString()).getKeyConversionStrategy().cover(entry.getKey());
+                String key = KeyConversionEnum.valueOf(configuration.getKeyConversionConfig().toString())
+                        .getKeyConversionStrategy().cover(entry.getKey());
                 String paramType;
                 paramType = function.apply(entry.getValue());
                 tableMap.put(key, paramType);
@@ -75,11 +77,12 @@ public abstract class AbstractJSONParser implements JSONParser {
         return processNestedResult;
     }
 
-    private Map<String, String> processNestedBean(List<Map<String, BeanProcessor>> beanProcessorMaps, Map<String, Object> map) {
+    private Map<String, String> processNestedBean(List<Map<String, BeanProcessor>> beanProcessorMaps,
+            Map<String, Object> map) {
         Map<String, Object> temp = new HashMap<>(map);
         Map<String, String> stringMap = new HashMap<>();
         if (CollectionUtils.isNotEmpty(beanProcessorMaps)) {
-            //用BeanProcessor处理json中的特殊字段
+            // 用BeanProcessor处理json中的特殊字段
             for (Map<String, BeanProcessor> beanProcessorMap : beanProcessorMaps) {
                 for (Map.Entry<String, BeanProcessor> entry : beanProcessorMap.entrySet()) {
                     Object obj = temp.get(entry.getKey());
@@ -87,25 +90,25 @@ public abstract class AbstractJSONParser implements JSONParser {
                         continue;
                     }
                     BeanProcessor beanProcessor = entry.getValue();
-                    //如果obj不是map就构造一个Map
+                    // 如果obj不是map就构造一个Map
                     if (!(obj instanceof Map)) {
-                        Map<String,Object> hashMap = new HashMap<>();
-                        hashMap.put(entry.getKey(),obj);
+                        Map<String, Object> hashMap = new HashMap<>();
+                        hashMap.put(entry.getKey(), obj);
                         obj = hashMap;
 
                     }
                     Map<String, String> beanProcessorResultMap = beanProcessor.processor(obj);
                     stringMap.putAll(beanProcessorResultMap);
-                    //处理完移除原来的元素
+                    // 处理完移除原来的元素
                     temp.remove(entry.getKey());
                 }
             }
         }
 
-        //如果使用者没有手动处理嵌套对象就自动处理
+        // 如果使用者没有手动处理嵌套对象就自动处理
         Map<String, Object> autoProcessResult = autoProcess(temp);
 
-        //剩下的元素都转换成String
+        // 剩下的元素都转换成String
         for (Map.Entry<String, Object> stringObjectEntry : autoProcessResult.entrySet()) {
             String value = null;
             if (stringObjectEntry.getValue() != null) {

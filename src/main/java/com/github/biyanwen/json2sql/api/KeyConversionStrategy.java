@@ -3,7 +3,7 @@ package com.github.biyanwen.json2sql.api;
 import com.google.common.base.CaseFormat;
 
 /**
- * Description:  <br>
+ * Description: <br>
  *
  * @author byw
  * @create 2020/9/29

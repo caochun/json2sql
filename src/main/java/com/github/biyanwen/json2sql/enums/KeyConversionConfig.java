@@ -1,7 +1,7 @@
 package com.github.biyanwen.json2sql.enums;
 
 /**
- * Description:  <br>
+ * Description: <br>
  *
  * @author byw
  * @create 2020/9/29

@@ -3,7 +3,7 @@ package com.github.biyanwen.json2sql.api;
 import java.util.Map;
 
 /**
- * Description:  <br>
+ * Description: <br>
  * 当json中有嵌套对象的时候用此接口处理
  *
  * @author byw
@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public interface BeanProcessor<T> {
     /**
-     * @param t   javabean类型
+     * @param t javabean类型
      * @return
      */
-    Map<String, String> processor( T t);
+    Map<String, String> processor(T t);
 }

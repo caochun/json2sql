@@ -3,7 +3,7 @@ package com.github.biyanwen.json2sql.enums;
 import com.github.biyanwen.json2sql.api.KeyConversionStrategy;
 
 /**
- * Description:  <br>
+ * Description: <br>
  *
  * @author byw
  * @create 2020/9/29

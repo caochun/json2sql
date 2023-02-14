@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.Map;
 
 /**
- * Description:  <br>
+ * Description: <br>
  *
  * @author byw
  * @create 2020/9/27
@@ -26,10 +26,10 @@ public class DefaultJSONWriter implements JSONWriter {
         Writer out = null;
         try {
             Template template = configTemplate();
-            //生成数据
+            // 生成数据
             File docFile = new File(outPath + File.separatorChar + sqlFileName);
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
-            //输出文件
+            // 输出文件
             template.process(sqlParamMap, out);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,16 +57,16 @@ public class DefaultJSONWriter implements JSONWriter {
 
     @SneakyThrows
     private Template configTemplate() {
-        //创建freeMarker配置实例
+        // 创建freeMarker配置实例
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        //设置模版路径
+        // 设置模版路径
         configuration.setClassForTemplateLoading(this.getClass(), "/templates");
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         configuration.setLogTemplateExceptions(false);
         configuration.setWrapUncheckedExceptions(true);
         configuration.setFallbackOnNullLoopVariable(false);
-        //加载模版文件
+        // 加载模版文件
         return configuration.getTemplate("json2sql.ftl");
     }
 }
